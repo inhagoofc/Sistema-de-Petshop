@@ -5,6 +5,7 @@ Programa desenvolvido em linguagem C para controlo de atendimentos e faturação
 
 ## Integrantes do Grupo
 - Nome: Marlon 
-- Nomo: Maria 
+- Nome: Maria 
+- Nome: João
 - Nome: Hiago 
 - Nome: Iago
