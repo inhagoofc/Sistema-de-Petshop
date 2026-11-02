@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_PETS 50
+
+typedef struct {
+    char nome[50];
+    char servico[30];
+    float valor;
+} Atendimento;
+
+int main() {
+    Atendimento lista[MAX_PETS];
+    int total = 0;
+    int opcao;
+
+    do {
+        printf("\n====================================\n");
+        printf("    SISTEMA DE PET SHOP - ATENDIMENTOS\n");
+        printf("====================================\n");
+        printf("1. Cadastrar novo atendimento\n");
+        printf("2. Listar atendimentos\n");
+        printf("0. Sair\n");
+        printf("Escolha uma opcao: ");
+
+        // Validação da leitura da opção numérica
+        if (scanf("%d", &opcao) != 1) {
+            printf("\n[ERRO] Entrada invalida. Digite apenas numeros.\n");
+            while (getchar() != '\n'); // Limpa buffer do teclado
+            continue;
+        }
+
+        switch (opcao) {
+            case 1:
+                // Validação de limite máximo de capacidade
+                if (total >= MAX_PETS) {
+                    printf("\n[AVISO] Limite maximo atingido (%d cadastros).\n", MAX_PETS);
+                } else {
+                    printf("\n--- Novo Cadastro (%d/%d) ---\n", total + 1, MAX_PETS);
+                    
+                    printf("Nome do pet: ");
+                    scanf(" %49[^\n]", lista[total].nome);
+
+                    printf("Servico realizado (Ex: Banho, Tosa, Vacina): ");
+                    scanf(" %29[^\n]", lista[total].servico);
+
+                    // Validação de valor positivo
+                    do {
+                        printf("Valor cobrado (R$): ");
+                        if (scanf("%f", &lista[total].valor) != 1 || lista[total].valor <= 0) {
+                            printf("[ERRO] Informe um valor numerico maior que zero.\n");
+                            while (getchar() != '\n');
+                            lista[total].valor = -1;
+                        }
+                    } while (lista[total].valor <= 0);
+
+                    total++;
+                    printf("\n[SUCESSO] Atendimento registrado com sucesso!\n");
+                }
+                break;
+
+            case 2:
+                printf("\n--- Atendimentos Registrados (%d) ---\n", total);
+                if (total == 0) {
+                    printf("Nenhum atendimento cadastrado ate o momento.\n");
+                } else {
+                    for (int i = 0; i < total; i++) {
+                        printf("%d. Pet: %-15s | Servico: %-12s | Valor: R$ %.2f\n",
+                               i + 1, lista[i].nome, lista[i].servico, lista[i].valor);
+                    }
+                }
+                break;
+
+            case 0:
+                printf("\nFinalizando o programa...\n");
+                break;
+
+            default:
+                printf("\n[ERRO] Opcao invalida. Digite 1, 2 ou 0.\n");
+                break;
+        }
+
+    } while (opcao != 0);
+
+    return 0;
+}
